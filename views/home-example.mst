@@ -1,0 +1,30 @@
+<h1> Seja bem vindo(a) </h1>
+<p> Qualquer mensagem </p>
+
+{{#mostrar}}
+<p> Nome: {{nome}}</p>
+{{/mostrar}}
+
+{{! igual laravel é usdo # para loop }}
+<ul>
+    {{#ingredientes}}
+    <li>{{nome}} - QT: {{qt}} </li>
+    {{/ingredientes}}
+</ul>
+
+{{! Aqui é quando não acha nada em ingredientes - aqui usado ^ para negação }}
+{{^ingredientes}}
+<p>Não há ingredientes </p>
+{{/ingredientes}}
+
+<hr>
+
+{{! use ponto para referenciar ao mesmo array  }}
+<ul>
+    {{#interesses}}
+    <li>{{.}}</li>
+    {{/interesses}}
+</ul>
+
+{{! três {{{ para inserir html pelo server }}
+{{{teste}}}
