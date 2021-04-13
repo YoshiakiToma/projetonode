@@ -7,6 +7,10 @@ exports.add = (req, res) => {
 };
 
 exports.addAction = async (req, res) => {
+    
+    req.body.tags = req.body.tags.split(",");
+    req.body.tags = req.body.tags.map(tags => tags.trim());
+
     const post = new Post(req.body);
     try {
         await post.save();
@@ -26,6 +30,7 @@ exports.addAction = async (req, res) => {
 exports.edit = async (req, res) => {
     // 1. Pegar as informações do post em questão.
     const post = await Post.findOne({ slug: req.params.slug});
+    post.tags = post.tags.join(",")
     // 2. Carregar o formulário de edição.
     res.render('postEdit', { post });
 };
@@ -33,6 +38,8 @@ exports.edit = async (req, res) => {
 exports.editAction = async (req, res) => {
     // Procurar o item enviado.
     req.body.slug = slug(req.body.title, { lower: true });
+    req.body.tags = req.body.tags.split(",");
+    req.body.tags = req.body.tags.map(tags => tags.trim());
     try {
         const post = await Post.findOneAndUpdate( 
             { slug: req.params.slug }, 
@@ -49,4 +56,13 @@ exports.editAction = async (req, res) => {
     req.flash('success', 'Post atualizaod com sucesso');
 
     res.redirect('/');
+};
+
+exports.view = async (req, res) => {
+      // 1. Pegar as informações do post em questão.
+    const post = await Post.findOne({ slug: req.params.slug});
+    post.tags = post.tags.join(",")
+    // 2. Carregar o formulário de edição.
+
+    res.render('view', { post });
 };

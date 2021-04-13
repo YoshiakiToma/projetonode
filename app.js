@@ -27,6 +27,11 @@ PROCESSO DE LOGIN
 // Configurações
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use(express.static(__dirname + '/public'));
+
 app.use(cookieParser(process.env.SECRET));
 app.use(session({
     secret: process.env.SECRET,
@@ -34,9 +39,6 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(flash());
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 
 app.use((req, res, next) => {
     res.locals.h = helpers;
